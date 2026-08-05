@@ -518,7 +518,7 @@
   <section class="card screen active" id="gameScreen">
     <p class="anniversary-heading">CTC, JPGL <span class="accent">·</span> 60th Anniversary</p>
     <p class="eyebrow">Split Second</p>
-    <h2>Stop it at 600ms</h2>
+    <h2>Stop it at the green zone</h2>
     <p class="welcome">Hit <b>Start</b>, then <b>Stop</b> the instant the needle crosses the green mark. You get three attempts.</p>
 
     <div class="dial-wrap" id="dialWrap">
@@ -573,7 +573,6 @@
       </div>
 
       <button type="submit" class="btn btn-primary">Submit</button>
-      <p class="hint">Your details stay on this page — nothing is sent anywhere.</p>
     </form>
   </section>
 
@@ -631,7 +630,7 @@
 
   // ---------- Game setup ----------
   const TOTAL_MS = 1000;
-  const TARGET_MS = 600;
+  const TARGET_MS = 500;
   const MAX_ATTEMPTS = 3;
 
   const CX = 150, CY = 150, R = 120;
@@ -790,7 +789,7 @@
 
     resultBox.innerHTML = `
       <p class="verdict ${verdictClass}">${verdictText}</p>
-      <p class="detail">Stopped at ${Math.round(stoppedAt)}ms &nbsp;·&nbsp; ${delta > 0 ? '+' : ''}${delta}ms from target &nbsp;·&nbsp; window ±${toleranceMs}ms</p>
+      <p class="detail">500ms green range zone</p>
     `;
 
     if(isWin){
