@@ -566,6 +566,12 @@
         <div class="field-error" id="err-nic"></div>
       </div>
 
+      <div class="field">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="0712345678 / +94712345678 / 712345678" autocomplete="tel">
+        <div class="field-error" id="err-phone"></div>
+      </div>
+
       <button type="submit" class="btn btn-primary">Submit</button>
       <p class="hint">Your details stay on this page — nothing is sent anywhere.</p>
     </form>
@@ -832,8 +838,9 @@
 
     const nameVal = document.getElementById('fullName').value.trim();
     const nicVal = document.getElementById('nic').value.trim();
+    const phoneVal = document.getElementById('phone').value.trim();
 
-    setError('fullName', ''); setError('nic', '');
+    setError('fullName', ''); setError('nic', ''); setError('phone', '');
 
     if(nameVal.length < 2){
       setError('fullName', 'Please enter your full name.');
@@ -842,6 +849,12 @@
     const nicPattern = /^(\d{9}[VvXx]|\d{12})$/;
     if(!nicPattern.test(nicVal)){
       setError('nic', 'Enter a valid NIC (9 digits + V/X, or 12 digits).');
+      valid = false;
+    }
+    // Accepts Sri Lankan mobile numbers: 0712345678, +94712345678, or 712345678
+    const phonePattern = /^(\+94|0)?7\d{8}$/;
+    if(!phonePattern.test(phoneVal)){
+      setError('phone', 'Enter a valid number (e.g. 0712345678, +94712345678, or 712345678).');
       valid = false;
     }
 
