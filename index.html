@@ -5,31 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Split Second · CTC, JPGL 60th Anniversary</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg-top: #fffaf2;
+    --bg-top: #F7F2E8;
     --bg-bottom: #f2ebe0;
-    --surface: #ffffff;
-    --surface-border: rgba(43,33,24,0.09);
-    --ink: #2b2118;
-    --ink-dim: #8a7a68;
-    --amber: #d98a2b;
-    --amber-soft: #f3d9ad;
-    --safelight: #c23a4f;
-    --safelight-soft: #f3d3d8;
-    --ok-green: #2f8f4e;
-    --ok-green-soft: #cdeed7;
+    --surface: #F7F2E8;
+    --surface-border: rgba(43,33,24,0.10);
+    --ink: #211B17;
+    --ink-dim: #756B61;
+    --amber: #D9A441;
+    --amber-soft: #f3e3bf;
+    --burgundy: #8B0D14;
+    --burgundy-deep: #3B0508;
+    --safelight: #A82E3F;
+    --safelight-soft: #f0d6da;
+    --ok-green: #557A45;
+    --ok-green-soft: #dbe6d4;
+    --timer-bg: #120E0B;
+    --disabled-bg: #E7DCC8;
+    --disabled-ink: #a89a86;
   }
 
   *{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
   html, body{
     margin:0; padding:0; min-height:100%;
-    background: radial-gradient(ellipse at 50% -10%, var(--bg-top) 0%, var(--bg-bottom) 70%);
+    background-color: #65090E;
+    background-image:
+      linear-gradient(180deg, rgba(59,5,8,0.55), rgba(138,13,20,0.55)),
+      url('https://github.com/mithusan-glitch/Logos/blob/main/Background_new.jpg?raw=true');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
     color: var(--ink);
-    font-family: 'Space Mono', monospace;
+    font-family: 'Inter', sans-serif;
     overflow-x: hidden;
+  }
+
+  @media (min-width: 900px){
+    html, body{
+      background-image:
+        linear-gradient(180deg, rgba(59,5,8,0.55), rgba(138,13,20,0.55)),
+        url('https://github.com/mithusan-glitch/Logos/blob/main/Background_pc.jpg?raw=true');
+      background-attachment: fixed;
+    }
   }
 
   body{
@@ -51,7 +72,7 @@
   }
 
   h1, h2{
-    font-family: 'Fraunces', serif;
+    font-family: 'Playfair Display', serif;
     font-weight: 700;
     letter-spacing: -0.01em;
     margin: 0;
@@ -68,14 +89,44 @@
   /* ---------------- EVENT BANNER ---------------- */
 
   .anniversary-heading{
-    font-family: 'Fraunces', serif;
+    text-align: center;
+    margin: 0 0 22px 0;
+    line-height: 1.1;
+  }
+
+  .anniversary-heading .brand-line{
+    display:block;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 12.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+
+  .anniversary-heading .divider{
+    display:block;
+    width: 46px;
+    height: 2px;
+    margin: 9px auto;
+    background: linear-gradient(90deg, transparent, var(--amber), transparent);
+  }
+
+  .anniversary-heading .years-line{
+    display:block;
+    font-family: 'Playfair Display', serif;
     font-weight: 700;
     font-size: 22px;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-    text-align: center;
-    margin: 0 0 20px 0;
-    line-height: 1.3;
+    letter-spacing: 0.01em;
+    color: var(--burgundy);
+  }
+
+  .anniversary-heading .years-image{
+    display: block;
+    max-width: 220px;
+    width: 60%;
+    height: auto;
+    margin: 4px auto 0 auto;
   }
 
   .anniversary-heading .accent{
@@ -89,7 +140,7 @@
     border: 1px solid var(--surface-border);
     border-radius: 6px;
     padding: 40px 36px;
-    box-shadow: 0 24px 50px -24px rgba(43,33,24,0.22);
+    box-shadow: 0 30px 60px -20px rgba(30,0,2,0.55), 0 8px 20px -6px rgba(30,0,2,0.3);
     position: relative;
   }
 
@@ -131,22 +182,22 @@
 
   .field input{
     width: 100%;
-    background: #fbf7f0;
+    background: #FBF7EE;
     border: 1px solid rgba(43,33,24,0.15);
     border-radius: 3px;
     color: var(--ink);
-    font-family: 'Space Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 16px;
     padding: 13px 14px;
     outline: none;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
 
-  .field input::placeholder{ color: rgba(138,122,104,0.6); }
+  .field input::placeholder{ color: rgba(117,107,97,0.6); }
 
   .field input:focus{
     border-color: var(--amber);
-    box-shadow: 0 0 0 3px rgba(217,138,43,0.18);
+    box-shadow: 0 0 0 3px rgba(217,164,65,0.18);
   }
 
   .field-error{
@@ -161,7 +212,7 @@
     appearance:none;
     border:none;
     cursor:pointer;
-    font-family: 'Space Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-weight:700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -175,13 +226,13 @@
   .btn-primary{
     width:100%;
     padding: 15px 20px;
-    background: linear-gradient(180deg, var(--amber), #b8721e);
-    color: #fffaf2;
-    box-shadow: 0 10px 22px -8px rgba(217,138,43,0.45);
+    background: linear-gradient(180deg, var(--amber), var(--burgundy));
+    color: #FBF7EE;
+    box-shadow: 0 10px 22px -8px rgba(217,164,65,0.4);
     margin-top: 8px;
   }
 
-  .btn-primary:hover{ transform: translateY(-1px); box-shadow: 0 14px 26px -8px rgba(217,138,43,0.55); }
+  .btn-primary:hover{ transform: translateY(-1px); box-shadow: 0 14px 26px -8px rgba(217,164,65,0.5); }
   .btn-primary:active{ transform: translateY(0); }
 
   .hint{
@@ -214,23 +265,23 @@
 
   .welcome b{ color: var(--amber); font-weight: 700; }
 
-  /* ---------------- DIAL ---------------- */
+  /* ---------------- DIGITAL CLOCK ---------------- */
 
   .dial-wrap{
     position: relative;
-    width: 300px;
-    height: 300px;
+    width: 100%;
+    max-width: 340px;
     margin: 0 auto 26px auto;
   }
 
-  .dial-wrap.win svg#dial{
+  .dial-wrap.win .digital-screen{
     animation: dialPulse 0.7s ease-out;
   }
 
   @keyframes dialPulse{
-    0%{ filter: drop-shadow(0 0 0 rgba(47,143,78,0)); }
-    30%{ filter: drop-shadow(0 0 16px rgba(47,143,78,0.55)); }
-    100%{ filter: drop-shadow(0 0 0 rgba(47,143,78,0)); }
+    0%{ box-shadow: 0 0 0 rgba(47,143,78,0), inset 0 0 30px rgba(0,0,0,0.5); }
+    30%{ box-shadow: 0 0 26px rgba(47,143,78,0.65), inset 0 0 30px rgba(0,0,0,0.5); }
+    100%{ box-shadow: 0 0 0 rgba(47,143,78,0), inset 0 0 30px rgba(0,0,0,0.5); }
   }
 
   .confetti-layer{
@@ -258,44 +309,69 @@
     100%{ transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) translateY(40px); opacity: 0; }
   }
 
-  svg#dial{ width: 100%; height: 100%; overflow: visible; }
-
-  .tick{ stroke: rgba(43,33,24,0.2); stroke-width: 1.5; }
-  .tick-major{ stroke: rgba(43,33,24,0.45); stroke-width: 2.5; }
-
-  .target-arc{
-    fill: none;
-    stroke: var(--ok-green);
-    stroke-width: 10;
-    opacity: 0.3;
+  .digital-screen{
+    background: linear-gradient(180deg, #17110c, var(--timer-bg));
+    border-radius: 14px;
+    padding: 28px 20px 22px 20px;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.5), 0 18px 34px -18px rgba(43,33,24,0.5);
+    border: 1px solid rgba(217,164,65,0.15);
   }
 
-  .track{
-    fill: none;
-    stroke: rgba(43,33,24,0.06);
-    stroke-width: 10;
-  }
-
-  .needle{
-    stroke: var(--safelight);
-    stroke-width: 3;
-    stroke-linecap: round;
-    filter: drop-shadow(0 0 5px rgba(194,58,79,0.5));
-  }
-
-  .hub{ fill: var(--amber); }
-
-  .readout{
+  .digital-readout{
     font-family: 'Space Mono', monospace;
-    font-size: 15px;
     font-weight: 700;
-    fill: var(--ink);
+    font-size: 56px;
+    letter-spacing: 0.04em;
+    text-align: center;
+    color: var(--amber);
+    text-shadow: 0 0 4px rgba(217,164,65,0.45), 0 0 12px rgba(217,164,65,0.2);
+    line-height: 1;
   }
 
-  .readout-unit{
-    font-size: 9px;
-    fill: var(--ink-dim);
-    letter-spacing: 0.1em;
+  .digital-unit{
+    display:block;
+    text-align:center;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    color: rgba(217,164,65,0.55);
+    margin-top: 8px;
+  }
+
+  .progress-track{
+    position: relative;
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(43,33,24,0.08);
+    margin-top: 20px;
+    overflow: hidden;
+  }
+
+  .progress-fill{
+    position: absolute;
+    top:0; left:0; bottom:0;
+    width: 0%;
+    background: linear-gradient(90deg, var(--amber), var(--burgundy));
+    border-radius: 999px;
+    transition: none;
+  }
+
+  .progress-target{
+    position: absolute;
+    top: -3px;
+    bottom: -3px;
+    min-width: 5px;
+    background: var(--ok-green);
+    border-radius: 3px;
+    box-shadow: 0 0 8px rgba(85,122,69,0.6);
+  }
+
+  .progress-labels{
+    display:flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.06em;
+    margin-top: 8px;
   }
 
   .controls{
@@ -308,22 +384,22 @@
   .btn-run{ padding: 14px 38px; font-size: 14px; }
 
   .btn-start{
-    background: linear-gradient(180deg, var(--amber), #b8721e);
-    color: #fffaf2;
-    box-shadow: 0 10px 22px -8px rgba(217,138,43,0.45);
+    background: linear-gradient(180deg, var(--amber), var(--burgundy));
+    color: #FBF7EE;
+    box-shadow: 0 10px 22px -8px rgba(217,164,65,0.4);
   }
   .btn-start:hover{ transform: translateY(-1px); }
 
   .btn-stop{
-    background: linear-gradient(180deg, var(--safelight), #9c2c3d);
+    background: linear-gradient(180deg, var(--safelight), var(--burgundy-deep));
     color: #fff5f5;
-    box-shadow: 0 10px 22px -8px rgba(194,58,79,0.45);
+    box-shadow: 0 10px 22px -8px rgba(168,46,63,0.45);
   }
   .btn-stop:hover{ transform: translateY(-1px); }
 
   .btn-disabled{
-    background: rgba(43,33,24,0.06);
-    color: rgba(138,122,104,0.6);
+    background: var(--disabled-bg);
+    color: var(--disabled-ink);
     cursor: not-allowed;
     box-shadow: none;
   }
@@ -331,23 +407,41 @@
 
   .result{
     min-height: 92px;
-    border-radius: 4px;
+    border-radius: 6px;
     border: 1px solid var(--surface-border);
-    background: #fbf7f0;
-    padding: 16px 20px;
+    background: #FBF7EE;
+    padding: 18px 20px;
     margin-bottom: 8px;
   }
 
   .result .verdict{
-    font-family: 'Fraunces', serif;
-    font-size: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
     font-weight: 700;
-    margin-bottom: 4px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
   }
 
   .result .verdict.good{ color: var(--ok-green); }
   .result .verdict.mid{ color: var(--amber); }
   .result .verdict.bad{ color: var(--safelight); }
+
+  .result .result-time{
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 30px;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .result .result-time span{
+    font-size: 15px;
+    color: var(--ink-dim);
+    font-weight: 400;
+    margin-left: 4px;
+  }
 
   .result .detail{
     font-size: 12px;
@@ -435,7 +529,7 @@
     color: var(--ink-dim);
     line-height: 1.6;
     padding: 10px 12px;
-    background: #fbf7f0;
+    background: #FBF7EE;
     border: 1px solid var(--surface-border);
     border-radius: 4px;
     margin-bottom: 8px;
@@ -460,19 +554,31 @@
     justify-content:center;
     gap: 8px;
     font-size: 10.5px;
-    color: var(--ink-dim);
+    color: #fbe6e2;
     letter-spacing: 0.04em;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+
+  .footer-credit .logo-chip{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    background: #fff;
+    border-radius: 6px;
+    padding: 3px 7px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
   }
 
   .footer-credit img{
-    height: 18px;
+    height: 15px;
     width: auto;
-    opacity: 0.85;
+    display:block;
   }
 
   @media (min-width: 900px){
     .stage{ max-width: 560px; }
-    .dial-wrap{ width: 320px; height: 320px; }
+    .dial-wrap{ max-width: 380px; }
+    .digital-readout{ font-size: 62px; }
   }
 
   @media (max-width: 480px){
@@ -480,7 +586,8 @@
     .card{ padding: 28px 22px; }
     .card h1{ font-size: 24px; }
     .card .sub{ font-size: 12.5px; margin-bottom: 22px; }
-    .dial-wrap{ width: 250px; height: 250px; }
+    .digital-readout{ font-size: 46px; }
+    .digital-screen{ padding: 22px 16px 18px 16px; }
     .screen h2{ font-size: 22px; }
     .btn-run{ padding: 13px 30px; }
     .attempts{ font-size: 10px; letter-spacing: 0.05em; }
@@ -488,15 +595,17 @@
 
   @media (max-width: 360px){
     .card{ padding: 24px 16px; }
-    .dial-wrap{ width: 220px; height: 220px; }
-    .readout{ font-size: 13px; }
+    .digital-readout{ font-size: 38px; }
+    .digital-screen{ padding: 18px 14px 14px 14px; }
     .btn-run{ padding: 12px 24px; font-size: 13px; }
     .result{ padding: 14px 16px; }
   }
 
   @media (max-height: 640px) and (orientation: landscape){
     body{ justify-content: flex-start; padding-top: max(16px, env(safe-area-inset-top)); }
-    .dial-wrap{ width: 200px; height: 200px; margin-bottom: 16px; }
+    .dial-wrap{ margin-bottom: 16px; }
+    .digital-readout{ font-size: 40px; }
+    .digital-screen{ padding: 16px; }
     .screen .welcome{ margin-bottom: 16px; }
     .result{ min-height: 70px; }
   }
@@ -516,22 +625,29 @@
 
   <!-- ============ GAME SCREEN ============ -->
   <section class="card screen active" id="gameScreen">
-    <p class="anniversary-heading">CTC, JPGL <span class="accent">·</span> 60th Anniversary</p>
+    <p class="anniversary-heading">
+      <span class="brand-line">CTC &middot; JPGL</span>
+      <span class="divider"></span>
+      <img class="years-image" src="https://github.com/mithusan-glitch/Logos/blob/main/60th_anniversary.png?raw=true" alt="60th Anniversary">
+    </p>
     <p class="eyebrow">Split Second</p>
-    <h2>Stop Time at the Green Zone</h2>
-    <p class="welcome">Hit <b>Start</b>, then <b>Stop</b> the instant the needle crosses the green mark. You get three attempts.</p>
+    <h2 id="targetHeading">Stop it at 60 seconds</h2>
+    <p class="welcome" id="welcomeText">Hit <b>Start</b>, then <b>Stop</b> the instant the timer crosses 60 seconds. You get three attempts.</p>
 
     <div class="dial-wrap" id="dialWrap">
       <div class="confetti-layer" id="confettiLayer"></div>
-      <svg id="dial" viewBox="0 0 300 300">
-        <circle class="track" cx="150" cy="150" r="120"></circle>
-        <path id="targetArc" class="target-arc"></path>
-        <g id="ticks"></g>
-        <text class="readout" id="readoutText" x="150" y="146" text-anchor="middle">0</text>
-        <text class="readout-unit" x="150" y="164" text-anchor="middle">MILLISECONDS</text>
-        <line class="needle" id="needle" x1="150" y1="150" x2="150" y2="45"></line>
-        <circle class="hub" cx="150" cy="150" r="6"></circle>
-      </svg>
+      <div class="digital-screen">
+        <div class="digital-readout" id="readoutText">00.000</div>
+        <span class="digital-unit">SECONDS</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-target" id="progressTarget"></div>
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-labels">
+        <span>0s</span>
+        <span id="totalLabel">65s</span>
+      </div>
     </div>
 
     <div class="controls">
@@ -547,7 +663,11 @@
 
   <!-- ============ WIN → CLAIM DETAILS FORM ============ -->
   <section class="card screen" id="claimScreen">
-    <p class="anniversary-heading">CTC, JPGL <span class="accent">·</span> 60th Anniversary</p>
+    <p class="anniversary-heading">
+      <span class="brand-line">CTC &middot; JPGL</span>
+      <span class="divider"></span>
+      <img class="years-image" src="https://github.com/mithusan-glitch/Logos/blob/main/60th_anniversary.png?raw=true" alt="60th Anniversary">
+    </p>
     <span class="win-flag">You Won</span>
     <p class="eyebrow">One Last Step</p>
     <h1>Claim Your Result</h1>
@@ -578,7 +698,11 @@
 
   <!-- ============ LOCATION (required) ============ -->
   <section class="card screen" id="locationScreen">
-    <p class="anniversary-heading">CTC, JPGL <span class="accent">·</span> 60th Anniversary</p>
+    <p class="anniversary-heading">
+      <span class="brand-line">CTC &middot; JPGL</span>
+      <span class="divider"></span>
+      <img class="years-image" src="https://github.com/mithusan-glitch/Logos/blob/main/60th_anniversary.png?raw=true" alt="60th Anniversary">
+    </p>
     <div class="location-icon">📍</div>
     <h1>Confirm Your Location</h1>
     <p class="sub" style="margin-left:auto; margin-right:auto;">Location access is required to complete your registration. Tap below to allow it.</p>
@@ -606,7 +730,7 @@
 
   <div class="footer-credit">
     <span>Developed by</span>
-    <img src="https://raw.githubusercontent.com/mithusan-glitch/Logos/refs/heads/main/BF_Logo-no_background.png" alt="Company logo">
+    <span class="logo-chip"><img src="https://raw.githubusercontent.com/mithusan-glitch/Logos/refs/heads/main/BF_Logo-no_background.png" alt="Company logo"></span>
   </div>
 
 </div>
@@ -618,66 +742,99 @@
     document.getElementById(id).classList.add('active');
   }
 
-  // ---------- Difficulty (fixed, not shown to the player) ----------
-  // All difficulty tiers are kept here for reference / future use.
-  // Only "tight" (Precise) is active for this build.
-  const tolerancesByDifficulty = {
-    // wide: 60,       // Steady hand (±60ms) — disabled
-    tight: 30,          // Precise (±30ms) — active
-    // hairline: 12    // Hairline (±12ms) — disabled
-  };
-  const toleranceMs = tolerancesByDifficulty.tight;
+  // ---------- Game setup (configurable) ----------
+  // How many decimal places the timer displays, e.g. 4 -> "0.6000"
+  let DECIMALS = 4;
 
-  // ---------- Game setup ----------
-  const TOTAL_MS = 1000;
-  const TARGET_MS = 500;
+  // Where the player must stop the timer, in seconds (supports decimals, e.g. 0.6).
+  let STOP_AT_SECONDS = 0.6;
+
+  // Total duration of a run, in seconds (supports decimals).
+  let TOTAL_SECONDS = 1;
+
+  // Timer speed multiplier. 1.0 = real time. 2.0 = timer runs twice as fast,
+  // 0.5 = timer runs at half speed. Supports decimals.
+  let SPEED = 1.0;
+
+  // Allowed timing window around STOP_AT_SECONDS, in milliseconds (supports decimals).
+  let TOLERANCE_MS = 30;
+
+  // Which side(s) of STOP_AT_SECONDS count as a win, within TOLERANCE_MS:
+  //   'plus'  -> only stopping AT or AFTER the target wins (stopping early never wins)
+  //   'minus' -> only stopping AT or BEFORE the target wins (stopping late never wins)
+  //   'both'  -> stopping within the window on either side of the target wins
+  let TOLERANCE_MODE = 'plus';
+
+  // Difficulty presets, kept for reference / easy swapping.
+  // Assign one of these to TOLERANCE_MS above to change difficulty.
+  const tolerancesByDifficulty = {
+    wide: 60,       // Steady hand (±60ms)
+    tight: 30,       // Precise (±30ms) — active by default
+    hairline: 12    // Hairline (±12ms)
+  };
+
+  // Derived millisecond values — recalculated whenever the config above changes.
+  let TARGET_MS, TOTAL_MS;
+  function recalcConfig(){
+    TARGET_MS = STOP_AT_SECONDS * 1000;
+    TOTAL_MS = TOTAL_SECONDS * 1000;
+  }
+  recalcConfig();
+
+  function formatSeconds(seconds){
+    return seconds.toFixed(DECIMALS);
+  }
+
+  function refreshConfigDisplay(){
+    document.getElementById('targetHeading').textContent =
+      'Stop it at ' + formatSeconds(STOP_AT_SECONDS) + ' sec';
+    document.getElementById('welcomeText').innerHTML =
+      'Hit <b>Start</b>, then <b>Stop</b> the instant the timer crosses ' +
+      formatSeconds(STOP_AT_SECONDS) + ' seconds. You get three attempts.';
+    document.getElementById('totalLabel').textContent = formatSeconds(TOTAL_SECONDS) + 's';
+    document.getElementById('readoutText').textContent = formatDigital(0);
+  }
+
   const MAX_ATTEMPTS = 3;
 
-  const CX = 150, CY = 150, R = 120;
-
-  function msToAngle(ms){
-    return (ms / TOTAL_MS) * 360;
+  function formatDigital(ms){
+    const totalSeconds = Math.max(0, ms) / 1000;
+    return totalSeconds.toFixed(DECIMALS).padStart(DECIMALS + 3, '0'); // e.g. "0.6000"
   }
 
-  function polar(cx, cy, r, angleDeg){
-    const rad = (angleDeg - 90) * Math.PI / 180;
-    return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+  const progressTarget = document.getElementById('progressTarget');
+  const progressFill = document.getElementById('progressFill');
+
+  function drawTargetZone(){
+    // Window drawn around TARGET_MS depends on TOLERANCE_MODE.
+    let startMs, endMs;
+    if(TOLERANCE_MODE === 'plus'){
+      startMs = TARGET_MS;
+      endMs = TARGET_MS + TOLERANCE_MS;
+    } else if(TOLERANCE_MODE === 'minus'){
+      startMs = TARGET_MS - TOLERANCE_MS;
+      endMs = TARGET_MS;
+    } else { // 'both'
+      startMs = TARGET_MS - TOLERANCE_MS;
+      endMs = TARGET_MS + TOLERANCE_MS;
+    }
+    startMs = Math.max(0, startMs);
+    endMs = Math.min(TOTAL_MS, endMs);
+    const leftPct = (startMs / TOTAL_MS) * 100;
+    const widthPct = ((endMs - startMs) / TOTAL_MS) * 100;
+    progressTarget.style.left = leftPct + '%';
+    progressTarget.style.width = widthPct + '%';
   }
 
-  function describeArc(cx, cy, r, startAngle, endAngle){
-    const start = polar(cx, cy, r, endAngle);
-    const end = polar(cx, cy, r, startAngle);
-    const largeArc = endAngle - startAngle <= 180 ? 0 : 1;
-    return `M ${start.x} ${start.y} A ${r} ${r} 0 ${largeArc} 0 ${end.x} ${end.y}`;
+  function setProgress(ms){
+    const pct = (Math.min(ms, TOTAL_MS) / TOTAL_MS) * 100;
+    progressFill.style.width = pct + '%';
   }
 
-  function drawTargetArc(){
-    const startMs = TARGET_MS - toleranceMs;
-    const endMs = TARGET_MS + toleranceMs;
-    const startA = msToAngle(startMs);
-    const endA = msToAngle(endMs);
-    document.getElementById('targetArc').setAttribute('d', describeArc(CX, CY, R, startA, endA));
-  }
+  drawTargetZone();
+  refreshConfigDisplay();
 
-  const ticksGroup = document.getElementById('ticks');
-  for(let ms = 0; ms < TOTAL_MS; ms += 20){
-    const angle = msToAngle(ms);
-    const isMajor = ms % 100 === 0;
-    const outerR = 120;
-    const innerR = isMajor ? 106 : 112;
-    const p1 = polar(CX, CY, outerR, angle);
-    const p2 = polar(CX, CY, innerR, angle);
-    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', p1.x); line.setAttribute('y1', p1.y);
-    line.setAttribute('x2', p2.x); line.setAttribute('y2', p2.y);
-    line.setAttribute('class', isMajor ? 'tick-major' : 'tick');
-    ticksGroup.appendChild(line);
-  }
-
-  drawTargetArc();
-
-  // ---------- Needle animation ----------
-  const needle = document.getElementById('needle');
+  // ---------- Clock animation ----------
   const readoutText = document.getElementById('readoutText');
   const runBtn = document.getElementById('runBtn');
   const resultBox = document.getElementById('resultBox');
@@ -690,15 +847,11 @@
   let attempts = 0;
   let bestDelta = null;
 
-  function setNeedleAngle(angle){
-    needle.setAttribute('transform', `rotate(${angle} ${CX} ${CY})`);
-  }
-
   function tick(now){
-    const elapsed = now - startTime;
+    const elapsed = (now - startTime) * SPEED;
     const clamped = Math.min(elapsed, TOTAL_MS);
-    setNeedleAngle(msToAngle(clamped));
-    readoutText.textContent = Math.round(clamped);
+    readoutText.textContent = formatDigital(clamped);
+    setProgress(clamped);
 
     if(elapsed >= TOTAL_MS){
       finishRun(TOTAL_MS);
@@ -720,7 +873,7 @@
   function celebrate(){
     const dialWrap = document.getElementById('dialWrap');
     const layer = document.getElementById('confettiLayer');
-    const colors = ['#d98a2b', '#c23a4f', '#2f8f4e', '#2b2118'];
+    const colors = ['#D9A441', '#8B0D14', '#557A45', '#211B17'];
 
     dialWrap.classList.remove('win');
     void dialWrap.offsetWidth;
@@ -758,13 +911,13 @@
     running = false;
     cancelAnimationFrame(rafId);
 
-    const elapsed = forcedMs !== undefined ? forcedMs : (performance.now() - startTime);
+    const elapsed = forcedMs !== undefined ? forcedMs : (performance.now() - startTime) * SPEED;
     const stoppedAt = Math.min(elapsed, TOTAL_MS);
     const delta = Math.round(stoppedAt - TARGET_MS);
     const absDelta = Math.abs(delta);
 
-    readoutText.textContent = Math.round(stoppedAt);
-    setNeedleAngle(msToAngle(stoppedAt));
+    readoutText.textContent = formatDigital(stoppedAt);
+    setProgress(stoppedAt);
 
     attempts += 1;
     attemptCountEl.textContent = attempts;
@@ -774,12 +927,25 @@
     }
 
     let verdictClass, verdictText, isWin = false;
-    if(absDelta <= toleranceMs){
+    let withinWindow;
+    if(TOLERANCE_MODE === 'plus'){
+      // Only stopping at or after the target, within TOLERANCE_MS, wins.
+      withinWindow = delta >= 0 && delta <= TOLERANCE_MS;
+    } else if(TOLERANCE_MODE === 'minus'){
+      // Only stopping at or before the target, within TOLERANCE_MS, wins.
+      withinWindow = delta <= 0 && absDelta <= TOLERANCE_MS;
+    } else {
+      // 'both' — either side of the target counts, within TOLERANCE_MS.
+      withinWindow = absDelta <= TOLERANCE_MS;
+    }
+
+    if(withinWindow){
       verdictClass = 'good';
-      verdictText = absDelta <= Math.round(toleranceMs / 3) ? 'Bullseye' : 'Nailed it';
+      verdictText = absDelta <= Math.round(TOLERANCE_MS / 3) ? 'Bullseye' : 'Nailed it';
       isWin = true;
       celebrate();
-    } else if(absDelta <= toleranceMs * 2){
+    } else if(absDelta <= TOLERANCE_MS * 2){
+      // Close, but outside the winning window for the current TOLERANCE_MODE.
       verdictClass = 'mid';
       verdictText = 'So close';
     } else {
@@ -787,9 +953,14 @@
       verdictText = delta > 0 ? 'Too slow' : 'Too fast';
     }
 
+    const stoppedSeconds = formatSeconds(stoppedAt / 1000);
+    const deltaSeconds = formatSeconds(absDelta / 1000);
+    const deltaLabel = delta > 0 ? 'late' : (delta < 0 ? 'early' : 'on the mark');
+
     resultBox.innerHTML = `
       <p class="verdict ${verdictClass}">${verdictText}</p>
-      <p class="detail">500ms green range zone</p>
+      <p class="result-time">${stoppedSeconds}<span>seconds</span></p>
+      <p class="detail">${deltaSeconds}s ${deltaLabel} &nbsp;&middot;&nbsp; Target: ${formatSeconds(STOP_AT_SECONDS)}s</p>
     `;
 
     if(isWin){
