@@ -735,7 +735,7 @@
 
   // ---------- Game setup (configurable) ----------
   // How many decimal places the timer displays, e.g. 4 -> "0.6000"
-  let DECIMALS = 4;
+  let DECIMALS = 0;
 
   // Where the player must stop the timer, in seconds (supports decimals, e.g. 0.6).
   let STOP_AT_SECONDS = 60;
@@ -745,10 +745,10 @@
 
   // Timer speed multiplier. 1.0 = real time. 2.0 = timer runs twice as fast,
   // 0.5 = timer runs at half speed. Supports decimals.
-  let SPEED = 3.5;
+  let SPEED = 4.5;
 
   // Allowed timing window around STOP_AT_SECONDS, in milliseconds (supports decimals).
-  let TOLERANCE_MS = 1;
+  let TOLERANCE_MS = 999;
 
   // Which side(s) of STOP_AT_SECONDS count as a win, within TOLERANCE_MS:
   //   'plus'  -> only stopping AT or AFTER the target wins (stopping early never wins)
