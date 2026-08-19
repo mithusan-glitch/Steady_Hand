@@ -31,26 +31,10 @@
 
   html, body{
     margin:0; padding:0; min-height:100%;
-    background-color: #65090E;
-    background-image:
-      linear-gradient(180deg, rgba(59,5,8,0.55), rgba(138,13,20,0.55)),
-      url('https://github.com/mithusan-glitch/Logos/blob/main/Background_new.jpg?raw=true');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: scroll;
+    background-color: #FFFFFF;
     color: var(--ink);
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
-  }
-
-  @media (min-width: 900px){
-    html, body{
-      background-image:
-        linear-gradient(180deg, rgba(59,5,8,0.55), rgba(138,13,20,0.55)),
-        url('https://github.com/mithusan-glitch/Logos/blob/main/Background_pc.jpg?raw=true');
-      background-attachment: fixed;
-    }
   }
 
   body{
@@ -136,12 +120,20 @@
   /* ---------------- SHARED CARD ---------------- */
 
   .card{
-    background: var(--surface);
-    border: 1px solid var(--surface-border);
+    background-color: var(--burgundy);
+    background-image:
+      linear-gradient(180deg, rgba(59,5,8,0.35), rgba(59,5,8,0.55)),
+      url('https://github.com/mithusan-glitch/Logos/blob/main/Background_new.jpg?raw=true');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid rgba(217,164,65,0.3);
     border-radius: 6px;
     padding: 40px 36px;
     box-shadow: 0 30px 60px -20px rgba(30,0,2,0.55), 0 8px 20px -6px rgba(30,0,2,0.3);
     position: relative;
+    overflow: hidden;
+    color: #F7F2E8;
   }
 
   .card::before{
@@ -156,11 +148,12 @@
 
   .card h1{
     font-size: 28px;
-    color: var(--ink);
+    color: #FBF7EE;
+    text-shadow: 0 2px 10px rgba(20,2,3,0.35);
   }
 
   .card .sub{
-    color: var(--ink-dim);
+    color: rgba(247,242,232,0.82);
     font-size: 13px;
     margin: 10px 0 28px 0;
     line-height: 1.6;
@@ -202,7 +195,7 @@
 
   .field-error{
     font-size: 11px;
-    color: var(--safelight);
+    color: #FFC9CE;
     margin-top: 6px;
     min-height: 14px;
     letter-spacing: 0.03em;
@@ -238,7 +231,7 @@
   .hint{
     margin-top: 18px;
     font-size: 11px;
-    color: var(--ink-dim);
+    color: rgba(247,242,232,0.65);
     text-align:center;
     letter-spacing: 0.04em;
   }
@@ -252,12 +245,13 @@
 
   .screen h2{
     font-size: 26px;
-    color: var(--ink);
+    color: #FBF7EE;
+    text-shadow: 0 2px 10px rgba(20,2,3,0.35);
     margin-bottom: 4px;
   }
 
   .screen .welcome{
-    color: var(--ink-dim);
+    color: rgba(247,242,232,0.82);
     font-size: 12px;
     margin-bottom: 26px;
     letter-spacing: 0.03em;
@@ -341,9 +335,10 @@
     position: relative;
     height: 10px;
     border-radius: 999px;
-    background: rgba(43,33,24,0.08);
+    background: rgba(18,14,11,0.4);
     margin-top: 20px;
     overflow: hidden;
+    border: 1px solid rgba(217,164,65,0.15);
   }
 
   .progress-fill{
@@ -369,7 +364,7 @@
     display:flex;
     justify-content: space-between;
     font-size: 10px;
-    color: var(--ink-dim);
+    color: rgba(247,242,232,0.65);
     letter-spacing: 0.06em;
     margin-top: 8px;
   }
@@ -458,7 +453,7 @@
 
   .attempts{
     font-size: 11px;
-    color: var(--ink-dim);
+    color: rgba(247,242,232,0.75);
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
@@ -554,9 +549,8 @@
     justify-content:center;
     gap: 8px;
     font-size: 10.5px;
-    color: #fbe6e2;
+    color: #000000;
     letter-spacing: 0.04em;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
   }
 
   .footer-credit .logo-chip{
@@ -626,12 +620,11 @@
   <!-- ============ GAME SCREEN ============ -->
   <section class="card screen active" id="gameScreen">
     <p class="anniversary-heading">
-      <span class="brand-line">CTC &middot; JPGL</span>
       <span class="divider"></span>
       <img class="years-image" src="https://github.com/mithusan-glitch/Logos/blob/main/explorer.png?raw=true" alt="60th Anniversary">
     </p>
     <p class="eyebrow">Split Second</p>
-    <h2 id="targetHeading">Stop it at 60 seconds</h2>
+    <h2 id="targetHeading">Stop it at 0.6000 sec</h2>
     <p class="welcome" id="welcomeText">Hit <b>Start</b>, then <b>Stop</b> the instant the timer crosses 60 seconds. You get three attempts.</p>
 
     <div class="dial-wrap" id="dialWrap">
@@ -664,7 +657,6 @@
   <!-- ============ WIN → CLAIM DETAILS FORM ============ -->
   <section class="card screen" id="claimScreen">
     <p class="anniversary-heading">
-      <span class="brand-line">CTC &middot; JPGL</span>
       <span class="divider"></span>
       <img class="years-image" src="https://github.com/mithusan-glitch/Logos/blob/main/explorer.png?raw=true" alt="60th Anniversary">
     </p>
@@ -699,7 +691,6 @@
   <!-- ============ LOCATION (required) ============ -->
   <section class="card screen" id="locationScreen">
     <p class="anniversary-heading">
-      <span class="brand-line">CTC &middot; JPGL</span>
       <span class="divider"></span>
       <img class="years-image" src="https://github.com/mithusan-glitch/Logos/blob/main/explorer.png?raw=true" alt="60th Anniversary">
     </p>
@@ -789,8 +780,7 @@
   }
 
   function refreshConfigDisplay(){
-    document.getElementById('targetHeading').textContent =
-      'Stop it at ' + formatSeconds(STOP_AT_SECONDS) + ' sec';
+    // targetHeading is static now — edit the "Stop it at 0.6000 sec" text in the HTML directly.
     document.getElementById('welcomeText').innerHTML =
       'Hit <b>Start</b>, then <b>Stop</b> the instant the timer crosses ' +
       formatSeconds(STOP_AT_SECONDS) + ' seconds. You get three attempts.';
