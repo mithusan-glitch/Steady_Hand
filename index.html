@@ -624,8 +624,8 @@
       <img class="years-image" src="https://github.com/mithusan-glitch/Logos/blob/main/explorer.png?raw=true" alt="60th Anniversary">
     </p>
     <p class="eyebrow">Split Second</p>
-    <h2 id="targetHeading">Stop it at 60 sec</h2>
-    <p class="welcome" id="welcomeText">Hit <b>Start</b>, then <b>Stop</b> the instant the timer crosses <b>60</b> seconds. You get three attempts.</p>
+    <h2 id="targetHeading">Stop it at 0.6000 sec</h2>
+    <p class="welcome" id="welcomeText">Hit <b>Start</b>, then <b>Stop</b> the instant the timer crosses <b>0.6</b> seconds. You get three attempts.</p>
 
     <div class="dial-wrap" id="dialWrap">
       <div class="confetti-layer" id="confettiLayer"></div>
@@ -742,16 +742,13 @@
 
   // Total duration of a run, in seconds (supports decimals).
   let TOTAL_SECONDS = 100;
-  //2
 
   // Timer speed multiplier. 1.0 = real time. 2.0 = timer runs twice as fast,
   // 0.5 = timer runs at half speed. Supports decimals.
   let SPEED = 3.5;
-  //1.5
 
   // Allowed timing window around STOP_AT_SECONDS, in milliseconds (supports decimals).
   let TOLERANCE_MS = 1;
-  //30
 
   // Which side(s) of STOP_AT_SECONDS count as a win, within TOLERANCE_MS:
   //   'plus'  -> only stopping AT or AFTER the target wins (stopping early never wins)
@@ -780,10 +777,7 @@
   }
 
   function refreshConfigDisplay(){
-    // targetHeading is static now — edit the "Stop it at 0.6000 sec" text in the HTML directly.
-    document.getElementById('welcomeText').innerHTML =
-      'Hit <b>Start</b>, then <b>Stop</b> the instant the timer crosses ' +
-      formatSeconds(STOP_AT_SECONDS) + ' seconds. You get three attempts.';
+    // targetHeading and welcomeText are static now — edit their text directly in the HTML.
     document.getElementById('totalLabel').textContent = formatSeconds(TOTAL_SECONDS) + 's';
     document.getElementById('readoutText').textContent = formatDigital(0);
   }
