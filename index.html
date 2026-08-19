@@ -735,6 +735,8 @@
 
   // ---------- Game setup (configurable) ----------
   // How many decimal places the timer displays, e.g. 4 -> "0.6000"
+  // NOTE: this is also the precision the win/fail decision is judged at (see truncateToDecimals below) —
+  // whatever the player sees on screen is exactly what decides win or fail.
   let DECIMALS = 0;
 
   // Where the player must stop the timer, in seconds (supports decimals, e.g. 0.6).
@@ -745,7 +747,7 @@
 
   // Timer speed multiplier. 1.0 = real time. 2.0 = timer runs twice as fast,
   // 0.5 = timer runs at half speed. Supports decimals.
-  let SPEED = 4.5;
+  let SPEED = 6.0;
 
   // Allowed timing window around STOP_AT_SECONDS, in milliseconds (supports decimals).
   let TOLERANCE_MS = 999;
@@ -776,6 +778,14 @@
     return seconds.toFixed(DECIMALS);
   }
 
+  // Truncates (never rounds) an elapsed-ms value down to the precision set by DECIMALS.
+  // This is the single source of truth used for BOTH what's displayed and what decides win/fail,
+  // so the number on screen and the outcome can never disagree (e.g. 60.9s never shows as "61").
+  function truncateToDecimals(ms){
+    const resolutionMs = Math.pow(10, 3 - DECIMALS); // ms per smallest displayed unit
+    return Math.floor(ms / resolutionMs) * resolutionMs;
+  }
+
   function refreshConfigDisplay(){
     // targetHeading and welcomeText are static now — edit their text directly in the HTML.
     document.getElementById('totalLabel').textContent = formatSeconds(TOTAL_SECONDS) + 's';
@@ -785,8 +795,9 @@
   const MAX_ATTEMPTS = 3;
 
   function formatDigital(ms){
-    const totalSeconds = Math.max(0, ms) / 1000;
-    return totalSeconds.toFixed(DECIMALS).padStart(DECIMALS + 3, '0'); // e.g. "0.6000"
+    const truncatedMs = truncateToDecimals(Math.max(0, ms));
+    const totalSeconds = truncatedMs / 1000;
+    return totalSeconds.toFixed(DECIMALS).padStart(DECIMALS + 3, '0'); // e.g. "0.6000" or "60"
   }
 
   const progressTarget = document.getElementById('progressTarget');
@@ -898,8 +909,12 @@
     running = false;
     cancelAnimationFrame(rafId);
 
-    const elapsed = forcedMs !== undefined ? forcedMs : (performance.now() - startTime) * SPEED;
-    const stoppedAt = Math.min(elapsed, TOTAL_MS);
+    const elapsedRaw = forcedMs !== undefined ? forcedMs : (performance.now() - startTime) * SPEED;
+    const stoppedAtRaw = Math.min(elapsedRaw, TOTAL_MS);
+
+    // Truncate to the same precision that's displayed — this value (not the raw high-precision
+    // timestamp) is what the win/fail decision, the result card, and everything else is based on.
+    const stoppedAt = truncateToDecimals(stoppedAtRaw);
     const delta = Math.round(stoppedAt - TARGET_MS);
     const absDelta = Math.abs(delta);
 
