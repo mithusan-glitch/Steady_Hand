@@ -625,7 +625,7 @@
     </p>
     <p class="eyebrow">Split Second</p>
     <h2 id="targetHeading">Stop it at 60 sec</h2>
-    <p class="welcome" id="welcomeText">Hit <b>Start</b>, then <b>Stop</b> the instant the timer crosses <b>60</b> seconds. You get three attempts.</p>
+    <p class="welcome" id="welcomeText">Hit <b>Start</b>, then <b>Stop</b> the instant the timer crosses <b>60</b> seconds. You get two attempts.</p>
 
     <div class="dial-wrap" id="dialWrap">
       <div class="confetti-layer" id="confettiLayer"></div>
@@ -633,11 +633,11 @@
         <div class="digital-readout" id="readoutText">00.000</div>
         <span class="digital-unit">SECONDS</span>
       </div>
-      <div class="progress-track">
+      <div class="progress-track" id="progressTrack">
         <div class="progress-target" id="progressTarget"></div>
         <div class="progress-fill" id="progressFill"></div>
       </div>
-      <div class="progress-labels">
+      <div class="progress-labels" id="progressLabels">
         <span>0s</span>
         <span id="totalLabel">65s</span>
       </div>
@@ -758,6 +758,16 @@
   //   'both'  -> stopping within the window on either side of the target wins
   let TOLERANCE_MODE = 'plus';
 
+  // How many attempts the player gets before the button locks.
+  let MAX_ATTEMPTS = 2;
+
+  // Whether to show the progress bar (the horizontal track + fill + 0s/total labels) at all.
+  let SHOW_PROGRESS_BAR = true;
+
+  // Whether to show the green target-zone marker on the progress bar.
+  // Only matters when SHOW_PROGRESS_BAR is true.
+  let SHOW_TARGET_ZONE = false;
+
   // Difficulty presets, kept for reference / easy swapping.
   // Assign one of these to TOLERANCE_MS above to change difficulty.
   const tolerancesByDifficulty = {
@@ -790,9 +800,8 @@
     // targetHeading and welcomeText are static now — edit their text directly in the HTML.
     document.getElementById('totalLabel').textContent = formatSeconds(TOTAL_SECONDS) + 's';
     document.getElementById('readoutText').textContent = formatDigital(0);
+    document.getElementById('maxAttempts').textContent = MAX_ATTEMPTS;
   }
-
-  const MAX_ATTEMPTS = 3;
 
   function formatDigital(ms){
     const truncatedMs = truncateToDecimals(Math.max(0, ms));
@@ -800,6 +809,8 @@
     return totalSeconds.toFixed(DECIMALS).padStart(DECIMALS + 3, '0'); // e.g. "0.6000" or "60"
   }
 
+  const progressTrack = document.getElementById('progressTrack');
+  const progressLabels = document.getElementById('progressLabels');
   const progressTarget = document.getElementById('progressTarget');
   const progressFill = document.getElementById('progressFill');
 
@@ -824,12 +835,21 @@
     progressTarget.style.width = widthPct + '%';
   }
 
+  // Applies SHOW_PROGRESS_BAR / SHOW_TARGET_ZONE to the DOM. Call again any time you
+  // change those variables at runtime to update the visuals immediately.
+  function applyVisibilityConfig(){
+    progressTrack.style.display = SHOW_PROGRESS_BAR ? '' : 'none';
+    progressLabels.style.display = SHOW_PROGRESS_BAR ? '' : 'none';
+    progressTarget.style.display = (SHOW_PROGRESS_BAR && SHOW_TARGET_ZONE) ? '' : 'none';
+  }
+
   function setProgress(ms){
     const pct = (Math.min(ms, TOTAL_MS) / TOTAL_MS) * 100;
     progressFill.style.width = pct + '%';
   }
 
   drawTargetZone();
+  applyVisibilityConfig();
   refreshConfigDisplay();
 
   // ---------- Clock animation ----------
