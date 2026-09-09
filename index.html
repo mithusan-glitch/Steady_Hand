@@ -460,6 +460,28 @@
 
   .attempts b{ color: var(--amber); }
 
+  /* ---------------- RESET LINK ---------------- */
+
+  .btn-reset-link{
+    display:block;
+    margin: 14px auto 0 auto;
+    background:none;
+    border:none;
+    color: rgba(247,242,232,0.6);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor:pointer;
+    padding: 8px;
+    transition: color 0.15s ease;
+  }
+
+  .btn-reset-link:hover{ color: var(--amber); }
+  .btn-reset-link:active{ color: #FBF7EE; }
+
   /* ---------------- WIN / THANK YOU ---------------- */
 
   .win-flag{
@@ -630,7 +652,7 @@
     <div class="dial-wrap" id="dialWrap">
       <div class="confetti-layer" id="confettiLayer"></div>
       <div class="digital-screen">
-        <div class="digital-readout" id="readoutText">00.000</div>
+        <div class="digital-readout" id="readoutText">0</div>
         <span class="digital-unit">SECONDS</span>
       </div>
       <div class="progress-track" id="progressTrack">
@@ -639,7 +661,7 @@
       </div>
       <div class="progress-labels" id="progressLabels">
         <span>0s</span>
-        <span id="totalLabel">65s</span>
+        <span id="totalLabel">100s</span>
       </div>
     </div>
 
@@ -651,7 +673,9 @@
       <p class="placeholder">Your result will appear here.</p>
     </div>
 
-    <p class="attempts">Attempts: <b id="attemptCount">0</b>/<span id="maxAttempts">3</span> &nbsp;·&nbsp; Best: <b id="bestScore">—</b></p>
+    <p class="attempts">Attempts: <b id="attemptCount">0</b>/<span id="maxAttempts">2</span> &nbsp;·&nbsp; Best: <b id="bestScore">—</b></p>
+
+    <button class="btn-reset-link" id="resetBtn" type="button">Reset Game</button>
   </section>
 
   <!-- ============ WIN → CLAIM DETAILS FORM ============ -->
@@ -717,6 +741,7 @@
     <div class="thanks-icon">✓</div>
     <h1>Thank You, <span id="thankYouName">—</span></h1>
     <p class="sub" style="margin-left:auto; margin-right:auto;">Your result has been recorded. Thanks for playing!</p>
+    <button class="btn btn-primary" id="playAgainBtn" type="button">Play Again</button>
   </section>
 
   <div class="footer-credit">
@@ -727,6 +752,18 @@
 </div>
 
 <script>
+  // ---------- Backend Deployment URL ----------
+  // Replace this URL with your deployed Google Apps Script Web App URL
+  var BACKEND_URL = "https://script.google.com/macros/s/AKfycbwTw2VDD-2QEWAsw8dRXxZPElpRZ1p_wUs9BIWwRk8IP0hWpKQ-bYizeiW-ChAyWOWe/exec";
+
+  // Data state to collect across screens
+  let winnerData = {
+    fullName: "",
+    nic: "",
+    phone: "",
+    locationUrl: ""
+  };
+
   // ---------- Screen switching ----------
   function showScreen(id){
     document.querySelectorAll('.screen').forEach(function(el){ el.classList.remove('active'); });
@@ -734,50 +771,16 @@
   }
 
   // ---------- Game setup (configurable) ----------
-  // How many decimal places the timer displays, e.g. 4 -> "0.6000"
-  // NOTE: this is also the precision the win/fail decision is judged at (see truncateToDecimals below) —
-  // whatever the player sees on screen is exactly what decides win or fail.
   let DECIMALS = 0;
-
-  // Where the player must stop the timer, in seconds (supports decimals, e.g. 0.6).
   let STOP_AT_SECONDS = 60;
-
-  // Total duration of a run, in seconds (supports decimals).
   let TOTAL_SECONDS = 100;
-
-  // Timer speed multiplier. 1.0 = real time. 2.0 = timer runs twice as fast,
-  // 0.5 = timer runs at half speed. Supports decimals.
   let SPEED = 35.0;
-  //24
-
-  // Allowed timing window around STOP_AT_SECONDS, in milliseconds (supports decimals).
   let TOLERANCE_MS = 999;
-
-  // Which side(s) of STOP_AT_SECONDS count as a win, within TOLERANCE_MS:
-  //   'plus'  -> only stopping AT or AFTER the target wins (stopping early never wins)
-  //   'minus' -> only stopping AT or BEFORE the target wins (stopping late never wins)
-  //   'both'  -> stopping within the window on either side of the target wins
   let TOLERANCE_MODE = 'plus';
-
-  // How many attempts the player gets before the button locks.
   let MAX_ATTEMPTS = 2;
-
-  // Whether to show the progress bar (the horizontal track + fill + 0s/total labels) at all.
   let SHOW_PROGRESS_BAR = true;
-
-  // Whether to show the green target-zone marker on the progress bar.
-  // Only matters when SHOW_PROGRESS_BAR is true.
   let SHOW_TARGET_ZONE = false;
 
-  // Difficulty presets, kept for reference / easy swapping.
-  // Assign one of these to TOLERANCE_MS above to change difficulty.
-  const tolerancesByDifficulty = {
-    wide: 60,       // Steady hand (±60ms)
-    tight: 30,       // Precise (±30ms) — active by default
-    hairline: 12    // Hairline (±12ms)
-  };
-
-  // Derived millisecond values — recalculated whenever the config above changes.
   let TARGET_MS, TOTAL_MS;
   function recalcConfig(){
     TARGET_MS = STOP_AT_SECONDS * 1000;
@@ -789,16 +792,12 @@
     return seconds.toFixed(DECIMALS);
   }
 
-  // Truncates (never rounds) an elapsed-ms value down to the precision set by DECIMALS.
-  // This is the single source of truth used for BOTH what's displayed and what decides win/fail,
-  // so the number on screen and the outcome can never disagree (e.g. 60.9s never shows as "61").
   function truncateToDecimals(ms){
-    const resolutionMs = Math.pow(10, 3 - DECIMALS); // ms per smallest displayed unit
+    const resolutionMs = Math.pow(10, 3 - DECIMALS);
     return Math.floor(ms / resolutionMs) * resolutionMs;
   }
 
   function refreshConfigDisplay(){
-    // targetHeading and welcomeText are static now — edit their text directly in the HTML.
     document.getElementById('totalLabel').textContent = formatSeconds(TOTAL_SECONDS) + 's';
     document.getElementById('readoutText').textContent = formatDigital(0);
     document.getElementById('maxAttempts').textContent = MAX_ATTEMPTS;
@@ -807,7 +806,7 @@
   function formatDigital(ms){
     const truncatedMs = truncateToDecimals(Math.max(0, ms));
     const totalSeconds = truncatedMs / 1000;
-    return totalSeconds.toFixed(DECIMALS).padStart(DECIMALS + 3, '0'); // e.g. "0.6000" or "60"
+    return totalSeconds.toFixed(DECIMALS);
   }
 
   const progressTrack = document.getElementById('progressTrack');
@@ -816,7 +815,6 @@
   const progressFill = document.getElementById('progressFill');
 
   function drawTargetZone(){
-    // Window drawn around TARGET_MS depends on TOLERANCE_MODE.
     let startMs, endMs;
     if(TOLERANCE_MODE === 'plus'){
       startMs = TARGET_MS;
@@ -824,7 +822,7 @@
     } else if(TOLERANCE_MODE === 'minus'){
       startMs = TARGET_MS - TOLERANCE_MS;
       endMs = TARGET_MS;
-    } else { // 'both'
+    } else {
       startMs = TARGET_MS - TOLERANCE_MS;
       endMs = TARGET_MS + TOLERANCE_MS;
     }
@@ -836,8 +834,6 @@
     progressTarget.style.width = widthPct + '%';
   }
 
-  // Applies SHOW_PROGRESS_BAR / SHOW_TARGET_ZONE to the DOM. Call again any time you
-  // change those variables at runtime to update the visuals immediately.
   function applyVisibilityConfig(){
     progressTrack.style.display = SHOW_PROGRESS_BAR ? '' : 'none';
     progressLabels.style.display = SHOW_PROGRESS_BAR ? '' : 'none';
@@ -859,6 +855,8 @@
   const resultBox = document.getElementById('resultBox');
   const attemptCountEl = document.getElementById('attemptCount');
   const bestScoreEl = document.getElementById('bestScore');
+  const dialWrap = document.getElementById('dialWrap');
+  const confettiLayer = document.getElementById('confettiLayer');
 
   let running = false;
   let startTime = null;
@@ -890,15 +888,13 @@
   }
 
   function celebrate(){
-    const dialWrap = document.getElementById('dialWrap');
-    const layer = document.getElementById('confettiLayer');
     const colors = ['#D9A441', '#8B0D14', '#557A45', '#211B17'];
 
     dialWrap.classList.remove('win');
     void dialWrap.offsetWidth;
     dialWrap.classList.add('win');
 
-    layer.innerHTML = '';
+    confettiLayer.innerHTML = '';
     const pieceCount = 26;
     for(let i = 0; i < pieceCount; i++){
       const piece = document.createElement('div');
@@ -919,10 +915,10 @@
       piece.style.animationDelay = delay + 'ms';
       piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
 
-      layer.appendChild(piece);
+      confettiLayer.appendChild(piece);
     }
 
-    setTimeout(() => { layer.innerHTML = ''; }, 1400);
+    setTimeout(() => { confettiLayer.innerHTML = ''; }, 1400);
   }
 
   function finishRun(forcedMs){
@@ -933,8 +929,6 @@
     const elapsedRaw = forcedMs !== undefined ? forcedMs : (performance.now() - startTime) * SPEED;
     const stoppedAtRaw = Math.min(elapsedRaw, TOTAL_MS);
 
-    // Truncate to the same precision that's displayed — this value (not the raw high-precision
-    // timestamp) is what the win/fail decision, the result card, and everything else is based on.
     const stoppedAt = truncateToDecimals(stoppedAtRaw);
     const delta = Math.round(stoppedAt - TARGET_MS);
     const absDelta = Math.abs(delta);
@@ -952,13 +946,10 @@
     let verdictClass, verdictText, isWin = false;
     let withinWindow;
     if(TOLERANCE_MODE === 'plus'){
-      // Only stopping at or after the target, within TOLERANCE_MS, wins.
       withinWindow = delta >= 0 && delta <= TOLERANCE_MS;
     } else if(TOLERANCE_MODE === 'minus'){
-      // Only stopping at or before the target, within TOLERANCE_MS, wins.
       withinWindow = delta <= 0 && absDelta <= TOLERANCE_MS;
     } else {
-      // 'both' — either side of the target counts, within TOLERANCE_MS.
       withinWindow = absDelta <= TOLERANCE_MS;
     }
 
@@ -968,7 +959,6 @@
       isWin = true;
       celebrate();
     } else if(absDelta <= TOLERANCE_MS * 2){
-      // Close, but outside the winning window for the current TOLERANCE_MODE.
       verdictClass = 'mid';
       verdictText = 'So close';
     } else {
@@ -987,7 +977,6 @@
     `;
 
     if(isWin){
-      // Winning ends the game immediately and moves to the claim form.
       runBtn.disabled = true;
       runBtn.classList.remove('btn-start', 'btn-stop');
       runBtn.classList.add('btn-disabled');
@@ -1018,7 +1007,7 @@
     }
   });
 
-  // ---------- Claim form (name + NIC), shown only after a win ----------
+  // ---------- Claim form submission ----------
   const claimForm = document.getElementById('claimForm');
 
   function setError(id, msg){
@@ -1044,7 +1033,6 @@
       setError('nic', 'Enter a valid NIC (9 digits + V/X, or 12 digits).');
       valid = false;
     }
-    // Accepts Sri Lankan mobile numbers: 0712345678, +94712345678, or 712345678
     const phonePattern = /^(\+94|0)?7\d{8}$/;
     if(!phonePattern.test(phoneVal)){
       setError('phone', 'Enter a valid number (e.g. 0712345678, +94712345678, or 712345678).');
@@ -1053,12 +1041,17 @@
 
     if(!valid) return;
 
+    // Cache claimed details
+    winnerData.fullName = nameVal;
+    winnerData.nic = nicVal;
+    winnerData.phone = phoneVal;
+
     document.getElementById('thankYouName').textContent = nameVal.split(' ')[0];
     resetLocationScreen();
     showScreen('locationScreen');
   });
 
-  // ---------- Required location step (iOS Safari, Android Chrome, desktop browsers) ----------
+  // ---------- Location and Backend Data Sync ----------
   let capturedLocation = null;
   const locationBtn = document.getElementById('locationBtn');
   const locationStatus = document.getElementById('locationStatus');
@@ -1076,8 +1069,11 @@
     if(state === 'requesting'){
       locationStatus.innerHTML = '<p class="detail">Requesting location…</p>';
       locationHelp.style.display = 'none';
+    } else if(state === 'saving'){
+      locationStatus.innerHTML = '<p class="detail" style="color:var(--amber);">Saving details to record...</p>';
+      locationHelp.style.display = 'none';
     } else if(state === 'granted'){
-      locationStatus.innerHTML = '<p class="detail" style="color:var(--ok-green);">Location confirmed.</p>';
+      locationStatus.innerHTML = '<p class="detail" style="color:var(--ok-green);">Location confirmed & recorded!</p>';
       locationHelp.style.display = 'none';
     } else if(state === 'denied'){
       let msg = 'Location access is required to continue.';
@@ -1088,6 +1084,43 @@
     } else if(state === 'unsupported'){
       locationStatus.innerHTML = '<p class="detail" style="color:var(--safelight);">This browser does not support location access. Please use an up-to-date browser.</p>';
       locationHelp.style.display = 'block';
+    }
+  }
+
+  // Sends data to Apps Script Backend using fetch
+  async function submitDataToBackend() {
+    setLocationStatus('saving');
+    locationBtn.disabled = true;
+
+    try {
+      // Small artificial delay to confirm visual feedback
+      await new Promise(resolve => setTimeout(resolve, 800));
+
+      const payload = {
+        fullName: winnerData.fullName,
+        nic: winnerData.nic,
+        phone: winnerData.phone,
+        locationUrl: winnerData.locationUrl
+      };
+
+      // no-cors mode handles Google Apps Script redirect cleanly across domains
+      await fetch(BACKEND_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      // Confirm delay step before final screen
+      await new Promise(resolve => setTimeout(resolve, 600));
+
+      setLocationStatus('granted');
+      setTimeout(function(){ showScreen('thankYouScreen'); }, 700);
+
+    } catch (err) {
+      console.error("Backend post error:", err);
+      // Even if network drops, ensure flow transitions safely
+      setTimeout(function(){ showScreen('thankYouScreen'); }, 700);
     }
   }
 
@@ -1103,15 +1136,12 @@
       function(pos){
         capturedLocation = {
           lat: pos.coords.latitude,
-          lng: pos.coords.longitude,
-          accuracy: pos.coords.accuracy
+          lng: pos.coords.longitude
         };
-        console.log('Location captured:', capturedLocation);
-        console.log('Google Maps link:', 'https://maps.google.com/?q=' + capturedLocation.lat + ',' + capturedLocation.lng);
-        setLocationStatus('granted');
-        locationBtn.disabled = false;
-        locationBtn.textContent = 'Continue';
-        setTimeout(function(){ showScreen('thankYouScreen'); }, 700);
+        winnerData.locationUrl = 'https://maps.google.com/?q=' + capturedLocation.lat + ',' + capturedLocation.lng;
+        
+        // Trigger save to backend sheet
+        submitDataToBackend();
       },
       function(err){
         console.log('Location error:', err);
@@ -1124,13 +1154,49 @@
   }
 
   locationBtn.addEventListener('click', function(){
-    // If location was already granted this pass, just continue.
     if(capturedLocation){
-      showScreen('thankYouScreen');
+      submitDataToBackend();
       return;
     }
     requestLocation();
   });
+
+  // ---------- Full reset function ----------
+  function resetGame(){
+    if(rafId) cancelAnimationFrame(rafId);
+    running = false;
+    startTime = null;
+
+    attempts = 0;
+    bestDelta = null;
+    attemptCountEl.textContent = '0';
+    bestScoreEl.textContent = '—';
+
+    winnerData = { fullName: "", nic: "", phone: "", locationUrl: "" };
+
+    readoutText.textContent = formatDigital(0);
+    setProgress(0);
+    dialWrap.classList.remove('win');
+    confettiLayer.innerHTML = '';
+
+    resultBox.innerHTML = '<p class="placeholder">Your result will appear here.</p>';
+
+    runBtn.disabled = false;
+    runBtn.textContent = 'Start';
+    runBtn.classList.remove('btn-stop', 'btn-disabled');
+    runBtn.classList.add('btn-start');
+
+    claimForm.reset();
+    setError('fullName', '');
+    setError('nic', '');
+    setError('phone', '');
+
+    resetLocationScreen();
+    showScreen('gameScreen');
+  }
+
+  document.getElementById('resetBtn').addEventListener('click', resetGame);
+  document.getElementById('playAgainBtn').addEventListener('click', resetGame);
 </script>
 
 </body>
