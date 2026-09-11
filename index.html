@@ -460,28 +460,6 @@
 
   .attempts b{ color: var(--amber); }
 
-  /* ---------------- RESET LINK ---------------- */
-
-  .btn-reset-link{
-    display:block;
-    margin: 14px auto 0 auto;
-    background:none;
-    border:none;
-    color: rgba(247,242,232,0.6);
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    cursor:pointer;
-    padding: 8px;
-    transition: color 0.15s ease;
-  }
-
-  .btn-reset-link:hover{ color: var(--amber); }
-  .btn-reset-link:active{ color: #FBF7EE; }
-
   /* ---------------- WIN / THANK YOU ---------------- */
 
   .win-flag{
@@ -534,33 +512,6 @@
     letter-spacing: 0.02em;
   }
 
-  .help-list{
-    list-style: none;
-    margin: 12px 0 0 0;
-    padding: 0;
-    text-align: left;
-  }
-
-  .help-list li{
-    font-size: 11.5px;
-    color: var(--ink-dim);
-    line-height: 1.6;
-    padding: 10px 12px;
-    background: #FBF7EE;
-    border: 1px solid var(--surface-border);
-    border-radius: 4px;
-    margin-bottom: 8px;
-  }
-
-  .help-list li b{
-    color: var(--ink);
-    display: block;
-    margin-bottom: 2px;
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
   /* ---------------- FOOTER CREDIT ---------------- */
 
   .footer-credit{
@@ -591,10 +542,51 @@
     display:block;
   }
 
-  @media (min-width: 900px){
-    .stage{ max-width: 560px; }
-    .dial-wrap{ max-width: 380px; }
-    .digital-readout{ font-size: 62px; }
+  /* ---- Tablet: card fills almost the whole screen, minimal white margin ---- */
+  @media (min-width: 600px) and (max-width: 1199px){
+    body{ padding: 18px 16px; }
+    .stage{ max-width: 96vw; width: 96vw; }
+    .card{ padding: 52px 60px; }
+    .card::before{ height: 3px; }
+    .card h1{ font-size: 34px; }
+    .card .sub{ font-size: 15px; max-width: 60ch; }
+    .anniversary-heading{ margin-bottom: 28px; }
+    .anniversary-heading .years-image{ max-width: 280px; width: 46%; }
+    .screen h2{ font-size: 32px; }
+    .screen .welcome{ font-size: 14.5px; margin-bottom: 34px; max-width: 60ch; margin-left:auto; margin-right:auto; }
+    .dial-wrap{ max-width: 480px; margin-bottom: 32px; }
+    .digital-screen{ padding: 38px 30px 30px 30px; }
+    .digital-readout{ font-size: 76px; }
+    .digital-unit{ font-size: 12px; }
+    .progress-track{ height: 12px; margin-top: 26px; }
+    .progress-labels{ font-size: 12px; margin-top: 10px; }
+    .controls{ margin-bottom: 28px; }
+    .btn-run{ padding: 17px 52px; font-size: 16px; }
+    .result{ padding: 26px 30px; min-height: 112px; }
+    .result .result-time{ font-size: 38px; }
+    .result .verdict{ font-size: 12.5px; }
+    .result .detail{ font-size: 13.5px; }
+    .attempts{ font-size: 13px; }
+    .field{ margin-bottom: 24px; }
+    .field label{ font-size: 12.5px; }
+    .field input{ font-size: 17px; padding: 16px 18px; }
+    .btn-primary{ padding: 17px 22px; font-size: 14px; }
+    .location-icon{ width: 76px; height: 76px; font-size: 32px; }
+    .thanks-icon{ width: 76px; height: 76px; font-size: 32px; }
+  }
+
+  @media (min-width: 600px) and (max-width: 1199px) and (min-height: 820px){
+    .card{ padding: 64px 68px; }
+    .dial-wrap{ max-width: 520px; }
+    .digital-readout{ font-size: 84px; }
+    .digital-screen{ padding: 44px 34px 34px 34px; }
+  }
+
+  /* ---- Desktop / large screens: back to a neat centered card ---- */
+  @media (min-width: 1200px){
+    .stage{ max-width: 600px; width: 100%; }
+    .dial-wrap{ max-width: 400px; }
+    .digital-readout{ font-size: 64px; }
   }
 
   @media (max-width: 480px){
@@ -674,8 +666,6 @@
     </div>
 
     <p class="attempts">Attempts: <b id="attemptCount">0</b>/<span id="maxAttempts">2</span> &nbsp;·&nbsp; Best: <b id="bestScore">—</b></p>
-
-    <button class="btn-reset-link" id="resetBtn" type="button">Reset Game</button>
   </section>
 
   <!-- ============ WIN → CLAIM DETAILS FORM ============ -->
@@ -712,7 +702,7 @@
     </form>
   </section>
 
-  <!-- ============ LOCATION (required) ============ -->
+  <!-- ============ LOCATION (typed, required) ============ -->
   <section class="card screen" id="locationScreen">
     <p class="anniversary-heading">
       <span class="divider"></span>
@@ -720,20 +710,17 @@
     </p>
     <div class="location-icon">📍</div>
     <h1>Confirm Your Location</h1>
-    <p class="sub" style="margin-left:auto; margin-right:auto;">Location access is required to complete your registration. Tap below to allow it.</p>
+    <p class="sub" style="margin-left:auto; margin-right:auto;">Please type your current location to complete your registration.</p>
+
+    <div class="field" style="text-align:left;">
+      <label for="locationInput">Your Location</label>
+      <input type="text" id="locationInput" name="locationInput" placeholder="e.g. Colombo, Sri Lanka" autocomplete="off">
+      <div class="field-error" id="err-locationInput"></div>
+    </div>
 
     <div class="location-status" id="locationStatus"></div>
 
-    <button class="btn btn-primary" id="locationBtn" type="button">Allow Location Access</button>
-
-    <div class="help-list-wrap" id="locationHelp" style="display:none;">
-      <p class="hint" style="text-align:left; margin-top:16px; margin-bottom:0;">Location was blocked. Enable it, then try again:</p>
-      <ul class="help-list">
-        <li><b>iPhone / iPad — Safari</b>Settings → Privacy &amp; Security → Location Services → Safari Websites → set to "While Using the App".</li>
-        <li><b>Android — Chrome</b>Tap the lock icon next to the address bar → Permissions → Location → Allow.</li>
-        <li><b>Desktop — Chrome / Edge / Firefox</b>Click the location icon in the address bar and choose Allow, or open Site settings → Location → Allow.</li>
-      </ul>
-    </div>
+    <button class="btn btn-primary" id="locationBtn" type="button">Submit</button>
   </section>
 
   <!-- ============ THANK YOU ============ -->
@@ -753,8 +740,7 @@
 
 <script>
   // ---------- Backend Deployment URL ----------
-  // Replace this URL with your deployed Google Apps Script Web App URL
-  var BACKEND_URL = "https://script.google.com/macros/s/AKfycbwTw2VDD-2QEWAsw8dRXxZPElpRZ1p_wUs9BIWwRk8IP0hWpKQ-bYizeiW-ChAyWOWe/exec";
+  var BACKEND_URL = "https://script.google.com/macros/s/AKfycbyuoDZ-FAU5z_tqLKGhYWpQXX51jHjqm_0uP-OhgUYv6fhaJf2gILvzVi2zOxlxIr5t/exec";
 
   // Data state to collect across screens
   let winnerData = {
@@ -1051,117 +1037,115 @@
     showScreen('locationScreen');
   });
 
-  // ---------- Location and Backend Data Sync ----------
-  let capturedLocation = null;
+  // ---------- Location (typed field) and Backend Data Sync ----------
+  const locationInput = document.getElementById('locationInput');
   const locationBtn = document.getElementById('locationBtn');
   const locationStatus = document.getElementById('locationStatus');
-  const locationHelp = document.getElementById('locationHelp');
 
   function resetLocationScreen(){
-    capturedLocation = null;
+    locationInput.value = '';
+    setError('locationInput', '');
     locationBtn.disabled = false;
-    locationBtn.textContent = 'Allow Location Access';
+    locationBtn.textContent = 'Submit';
     locationStatus.innerHTML = '';
-    locationHelp.style.display = 'none';
+    currentSubmissionId = null;
   }
 
-  function setLocationStatus(state, err){
-    if(state === 'requesting'){
-      locationStatus.innerHTML = '<p class="detail">Requesting location…</p>';
-      locationHelp.style.display = 'none';
-    } else if(state === 'saving'){
-      locationStatus.innerHTML = '<p class="detail" style="color:var(--amber);">Saving details to record...</p>';
-      locationHelp.style.display = 'none';
+  const MAX_SUBMIT_ATTEMPTS = 4; // 1 initial try + 3 retries
+
+  function setLocationStatus(state, extra){
+    if(state === 'saving'){
+      locationStatus.innerHTML = '<p class="detail" style="color:var(--amber);">Saving details to record…</p>';
+    } else if(state === 'retrying'){
+      locationStatus.innerHTML = '<p class="detail" style="color:var(--amber);">Connection hiccup — retrying (' + extra + '/' + MAX_SUBMIT_ATTEMPTS + ')…</p>';
     } else if(state === 'granted'){
       locationStatus.innerHTML = '<p class="detail" style="color:var(--ok-green);">Location confirmed & recorded!</p>';
-      locationHelp.style.display = 'none';
-    } else if(state === 'denied'){
-      let msg = 'Location access is required to continue.';
-      if(err && err.code === 2) msg = 'Location unavailable right now. Please try again.';
-      if(err && err.code === 3) msg = 'Location request timed out. Please try again.';
-      locationStatus.innerHTML = `<p class="detail" style="color:var(--safelight);">${msg}</p>`;
-      locationHelp.style.display = 'block';
-    } else if(state === 'unsupported'){
-      locationStatus.innerHTML = '<p class="detail" style="color:var(--safelight);">This browser does not support location access. Please use an up-to-date browser.</p>';
-      locationHelp.style.display = 'block';
+    } else if(state === 'failed'){
+      locationStatus.innerHTML = '<p class="detail" style="color:var(--safelight);">Could not reach the server. Please check your connection and try again — your entry has not been recorded yet.</p>';
     }
   }
 
-  // Sends data to Apps Script Backend using fetch
-  async function submitDataToBackend() {
-    setLocationStatus('saving');
+  // Give each attempt its own ID so a retried submission can be de-duplicated
+  // server-side (the Apps Script now checks this and ignores repeats).
+  function makeSubmissionId(){
+    return 'sub_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+  }
+  let currentSubmissionId = null;
+
+  // Sends data to the Apps Script backend, retrying on failure with jitter
+  // so many simultaneous retries (e.g. under a 50-person burst) don't all
+  // collide again on the exact same schedule.
+  // Uses a "simple" text/plain request (instead of no-cors) so the response
+  // body is actually readable — we only treat a submission as recorded once
+  // the server explicitly reports status: "success".
+  async function submitDataToBackend(attempt){
+    attempt = attempt || 1;
+    if(attempt === 1) currentSubmissionId = makeSubmissionId();
+
+    setLocationStatus(attempt === 1 ? 'saving' : 'retrying', attempt);
     locationBtn.disabled = true;
 
+    const payload = {
+      submissionId: currentSubmissionId,
+      fullName: winnerData.fullName,
+      nic: winnerData.nic,
+      phone: winnerData.phone,
+      locationUrl: winnerData.locationUrl
+    };
+
     try {
-      // Small artificial delay to confirm visual feedback
-      await new Promise(resolve => setTimeout(resolve, 800));
-
-      const payload = {
-        fullName: winnerData.fullName,
-        nic: winnerData.nic,
-        phone: winnerData.phone,
-        locationUrl: winnerData.locationUrl
-      };
-
-      // no-cors mode handles Google Apps Script redirect cleanly across domains
-      await fetch(BACKEND_URL, {
+      const response = await fetch(BACKEND_URL, {
         method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
+        // text/plain keeps this a CORS "simple request" (no preflight OPTIONS,
+        // which Apps Script doesn't handle) while still letting us read the
+        // response body, unlike mode: "no-cors".
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify(payload)
       });
 
-      // Confirm delay step before final screen
-      await new Promise(resolve => setTimeout(resolve, 600));
+      let result;
+      try {
+        result = await response.json();
+      } catch (parseErr) {
+        throw new Error('Unreadable server response');
+      }
+
+      if (!result || result.status !== 'success') {
+        throw new Error((result && result.message) || 'Server reported failure');
+      }
 
       setLocationStatus('granted');
-      setTimeout(function(){ showScreen('thankYouScreen'); }, 700);
+      setTimeout(function(){ showScreen('thankYouScreen'); }, 500);
 
     } catch (err) {
-      console.error("Backend post error:", err);
-      // Even if network drops, ensure flow transitions safely
-      setTimeout(function(){ showScreen('thankYouScreen'); }, 700);
-    }
-  }
+      console.error('Backend post error (attempt ' + attempt + '):', err);
 
-  function requestLocation(){
-    if(!navigator.geolocation){
-      setLocationStatus('unsupported');
-      return;
-    }
-    setLocationStatus('requesting');
-    locationBtn.disabled = true;
-
-    navigator.geolocation.getCurrentPosition(
-      function(pos){
-        capturedLocation = {
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude
-        };
-        winnerData.locationUrl = 'https://maps.google.com/?q=' + capturedLocation.lat + ',' + capturedLocation.lng;
-        
-        // Trigger save to backend sheet
-        submitDataToBackend();
-      },
-      function(err){
-        console.log('Location error:', err);
-        setLocationStatus('denied', err);
+      if(attempt < MAX_SUBMIT_ATTEMPTS){
+        const jitter = Math.floor(Math.random() * 500);
+        const backoffMs = (900 * attempt) + jitter;
+        setTimeout(function(){ submitDataToBackend(attempt + 1); }, backoffMs);
+      } else {
+        setLocationStatus('failed');
         locationBtn.disabled = false;
         locationBtn.textContent = 'Try Again';
-      },
-      { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
-    );
+      }
+    }
   }
 
   locationBtn.addEventListener('click', function(){
-    if(capturedLocation){
-      submitDataToBackend();
+    const locVal = locationInput.value.trim();
+    setError('locationInput', '');
+
+    if(locVal.length < 2){
+      setError('locationInput', 'Please enter your location.');
       return;
     }
-    requestLocation();
+
+    winnerData.locationUrl = locVal;
+    submitDataToBackend();
   });
 
-  // ---------- Full reset function ----------
+  // ---------- Full reset function (used after finishing the flow) ----------
   function resetGame(){
     if(rafId) cancelAnimationFrame(rafId);
     running = false;
@@ -1195,7 +1179,6 @@
     showScreen('gameScreen');
   }
 
-  document.getElementById('resetBtn').addEventListener('click', resetGame);
   document.getElementById('playAgainBtn').addEventListener('click', resetGame);
 </script>
 
